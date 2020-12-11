@@ -9,14 +9,14 @@ import (
 )
 
 func main() {
-	db, err := db.New()
+	db, err := db.New("postgres://postgres:postgres@localhost:5432/postgres")
 	expectNoError(err)
 
 	con := controller.New(db)
 	s := server.New(con)
 
-	log.Println("Listening on :8080...")
-	err = http.ListenAndServe(":8080", s.Router())
+	log.Println("Listening on :8000...")
+	err = http.ListenAndServe(":8000", s.Router())
 	expectNoError(err)
 }
 

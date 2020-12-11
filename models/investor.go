@@ -1,6 +1,7 @@
 package models
 
 type Investor struct {
-	Name             string
+	ID               int    `db:"id"`
+	Name             string `db:"name"`
 	ConnectionDegree string
 }
