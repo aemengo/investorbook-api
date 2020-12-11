@@ -6,10 +6,17 @@ import (
 	"github.com/aemengo/investorbook-api/server"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
-	db, err := db.New("postgres://postgres:postgres@localhost:5432/postgres")
+	databaseURI := os.Getenv("DATABASE_URI")
+	if databaseURI == "" {
+		log.Fatalln("DATABASE_URI environment variable must be specified")
+		os.Exit(1)
+	}
+
+	db, err := db.New(databaseURI)
 	expectNoError(err)
 
 	con := controller.New(db)
