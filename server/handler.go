@@ -67,7 +67,12 @@ func (s *server) search(w http.ResponseWriter, r *http.Request, ps httprouter.Pa
 		return
 	}
 
-	investors, err := s.con.Search(investorId, ps.ByName("q"))
+	q, _ := r.URL.Query()["q"]
+	if len(q) == 0 {
+		q = []string{""}
+	}
+
+	investors, err := s.con.Search(investorId, q[0])
 	if err != nil {
 		log.Println("Error:", err)
 		w.WriteHeader(http.StatusInternalServerError)

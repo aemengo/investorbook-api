@@ -55,7 +55,9 @@ func (d *DB) MutualConnections(id int, otherId int) ([]models.Investor, error) {
 
 //- GET /investors/:investorId/search?q={searchString}
 func (d *DB) Search(id int, query string) ([]models.Investor, error) {
-	return nil, nil
+	investors := []models.Investor{}
+	err := d.db.Select(&investors, "select id, name from investor where lower(name) LIKE ?", "%"+query+"%")
+	return investors, err
 }
 
 func mutualConnections(connections []models.Investor, otherConnections []models.Investor) []models.Investor {
